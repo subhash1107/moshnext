@@ -1,0 +1,37 @@
+import Link from "next/link";
+import React from "react";
+import { AiFillBug } from "react-icons/ai";
+
+const NavBar = () => {
+  const links = [
+    {
+      label: "dashboard",
+      href: "/dashboard",
+    },
+    {
+      label: "issues",
+      href: "/issues",
+    },
+  ];
+  return (
+    <nav className="flex space-x-6 items-center mb-5 border-b px-5 h-14">
+      <Link className="" href="/">
+        <AiFillBug />
+      </Link>
+      <ul className="flex space-x-6">
+        {links.map((link) => (
+          <li key={link.label}>
+            <Link
+              className="text-zinc-500 hover:text-zinc-800 transition-colors"
+              href={link.href}
+            >
+              {link.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </nav>
+  );
+};
+
+export default NavBar;
