@@ -7,14 +7,31 @@ const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
 });
 import "easymde/dist/easymde.min.css";
+import {Controller, useForm} from 'react-hook-form'
+import axios from 'axios'
+import { useRouter } from 'next/navigation';
 
+interface Issueform{
+  title:string,
+  description:string
+}
 const page = () => {
+  const router = useRouter()
+  const {register,control,handleSubmit} = useForm<Issueform>()
   return (
-    <div className='max-w-xl space-y-5'>
-        <TextField.Root variant='classic' placeholder='Title' className='p-2 w-full'/>
-        <SimpleMDE placeholder='describe the issue...' className='p-2'/>
+    <form className='max-w-xl space-y-5' onSubmit={handleSubmit(async (data)=>{
+      await axios.post('/api/issues', data)
+      router.push('/issues')
+    })}>
+        <TextField.Root variant='classic' placeholder='Title' className='p-2 w-full' {...register('title')}/>
+        <Controller
+        name='description'
+        control={control}
+        render={({field})=>
+        <SimpleMDE placeholder='describe the issue...' className='' {...field}/>
+        }/>
         <Button>Submit New Issue</Button>
-    </div>
+    </form>
   )
 }
 
