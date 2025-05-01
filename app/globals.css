@@ -4,6 +4,7 @@
   --foreground-rgb: 0, 0, 0;
   --background-start-rgb: 214, 219, 220;
   --background-end-rgb: 255, 255, 255;
+  --font-inter: 'Inter', sans-serif;
 }
 
 @media (prefers-color-scheme: dark) {
@@ -15,6 +16,7 @@
 }
 
 body {
+  font-family: var(--font-inter);
   color: rgb(var(--foreground-rgb));
   background: linear-gradient(
       to bottom,
