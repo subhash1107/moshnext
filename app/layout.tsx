@@ -29,7 +29,7 @@ export default function RootLayout({
         <Theme accentColor="iris">
         <NavBar />
         <main className="p-5">{children}</main>
-        <ThemePanel/>
+        {/* <ThemePanel/> */}
         </Theme>
       </body>
     </html>
