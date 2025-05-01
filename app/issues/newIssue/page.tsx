@@ -1,6 +1,6 @@
 'use client'
-import React from 'react'
-import { Button, TextField } from '@radix-ui/themes'
+import React, { useState } from 'react'
+import { Button, Callout, TextField } from '@radix-ui/themes'
 // anything which is doing ssr can be done like this so it not cause any error
 import dynamic from 'next/dynamic';
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
@@ -16,12 +16,22 @@ interface Issueform{
   description:string
 }
 const page = () => {
+  const [error,setError] = useState<string>('')
   const router = useRouter()
   const {register,control,handleSubmit} = useForm<Issueform>()
   return (
-    <form className='max-w-xl space-y-5' onSubmit={handleSubmit(async (data)=>{
-      await axios.post('/api/issues', data)
+    <div className='max-w-xl'>
+      {error&&<Callout.Root color='red' className='mb-5'>
+        <Callout.Text>{error}</Callout.Text>
+      </Callout.Root>}
+    <form 
+    className=' space-y-5' onSubmit={handleSubmit(async (data)=>{
+      try {
+        await axios.post('/api/issues', data)
       router.push('/issues')
+      } catch (error) {
+       setError('An Unexpected Error Happened.')
+      }
     })}>
         <TextField.Root variant='classic' placeholder='Title' className='p-2 w-full' {...register('title')}/>
         <Controller
@@ -32,6 +42,7 @@ const page = () => {
         }/>
         <Button>Submit New Issue</Button>
     </form>
+    </div>
   )
 }
 
