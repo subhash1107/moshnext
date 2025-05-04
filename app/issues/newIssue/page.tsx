@@ -1,9 +1,9 @@
 "use client";
 import React, { useState } from "react";
 import { Button, Callout, TextField } from "@radix-ui/themes";
-// anything which is doing ssr can be done like this so it not cause any error
 import dynamic from "next/dynamic";
 import Spinner from "@/app/components/Spinner";
+// anything which is doing ssr can be done like this so it not cause any error
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
   loading: () => <Spinner />,
@@ -41,7 +41,7 @@ const page = () => {
     } finally {
       setIsSubmitting(false);
     }
-  })
+  });
   return (
     <div className="max-w-xl">
       {error && (
@@ -49,10 +49,7 @@ const page = () => {
           <Callout.Text>{error}</Callout.Text>
         </Callout.Root>
       )}
-      <form
-        className=" space-y-5"
-        onSubmit={onSubmit}
-      >
+      <form className=" space-y-5" onSubmit={onSubmit}>
         <TextField.Root
           variant="classic"
           placeholder="Title"
