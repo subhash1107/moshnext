@@ -2,8 +2,8 @@
 import React, { useState } from "react";
 import { Button, Callout, TextField } from "@radix-ui/themes";
 import dynamic from "next/dynamic";
-import Spinner from "@/app/components/Spinner";
-// anything which is doing ssr can be done like this so it not cause any error
+import {ErrorMessage,Spinner} from "@/app/components";
+// anything which is doing ssr can be done like this so it not cause any error as it is lazy loading
 const SimpleMDE = dynamic(() => import("react-simplemde-editor"), {
   ssr: false,
   loading: () => <Spinner />,
@@ -15,7 +15,6 @@ import { useRouter } from "next/navigation";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { createIssueSchema } from "@/app/validationSchemas";
 import { z } from "zod";
-import ErrorMessage from "@/app/components/ErrorMessage";
 
 type Issueform = z.infer<typeof createIssueSchema>;
 const page = () => {
