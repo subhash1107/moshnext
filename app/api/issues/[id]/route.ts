@@ -1,10 +1,7 @@
 import { issueSchema } from "@/app/validationSchemas";
 import { prisma } from "@/prisma/client";
-import { Value } from "@radix-ui/themes/components/data-list";
-import { error } from "console";
 import { NextRequest, NextResponse } from "next/server";
-import { isUint16Array } from "util/types";
-
+import delay from 'delay'
 export async function PATCH(
   request: NextRequest,
   { params }: { params: { id: string } }
@@ -34,6 +31,7 @@ export async function DELETE(
   request: NextRequest,
   { params }: { params: { id: string } }
 ) {
+  await delay(2000)
   const issue = await prisma.issue.findUnique({
     where:{id:parseInt(params.id)}
   })
