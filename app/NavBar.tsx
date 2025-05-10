@@ -5,7 +5,7 @@ import React from "react";
 import { AiFillBug } from "react-icons/ai";
 import classNames from "classnames";
 import { useSession } from "next-auth/react";
-import { Box, Button, Container, Flex } from "@radix-ui/themes";
+import { Avatar, Box, Container, DropdownMenu, Flex, Text } from "@radix-ui/themes";
 
 const NavBar = () => {
   const currentPath = usePathname();
@@ -21,6 +21,8 @@ const NavBar = () => {
       href: "/issues",
     },
   ];
+  // console.log(session?.user);
+
   return (
     <nav className="mb-5 border-b px-5 py-3">
       <Container>
@@ -47,14 +49,33 @@ const NavBar = () => {
             </ul>
           </Flex>
           <Box>
-            <Button>
-              {status === "authenticated" && (
-                <Link href={"/api/auth/signout"}>Logout</Link>
-              )}
-              {status === "unauthenticated" && (
-                <Link href={"/api/auth/signin"}>Login</Link>
-              )}
-            </Button>
+            {status === "authenticated" && (
+              <DropdownMenu.Root>
+                <DropdownMenu.Trigger>
+                  <Avatar
+                    src=
+                    "https://lh3.googleusercontent.com/a/ACg8ocIVFGiEKRT-BdMlw9AwD44yULWdia7WcrJ0bmnPEzTIRFttm4I=s96-c"
+                    fallback="?"
+                    radius="full"
+                    size={"2"}
+                    className="cursor-pointer"
+                    />
+                </DropdownMenu.Trigger>
+                <DropdownMenu.Content>
+                  <DropdownMenu.Label>
+                    <Text size={'2'}>
+                    {session?.user?.email}
+                    </Text>
+                  </DropdownMenu.Label>
+                  <DropdownMenu.Item>
+                    <Link href={"/api/auth/signout"}>Logout</Link>
+                  </DropdownMenu.Item>
+                </DropdownMenu.Content>
+              </DropdownMenu.Root>
+            )}
+            {status === "unauthenticated" && (
+              <Link href={"/api/auth/signin"}>Login</Link>
+            )}
           </Box>
         </Flex>
       </Container>
