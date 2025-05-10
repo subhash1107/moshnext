@@ -53,8 +53,7 @@ const NavBar = () => {
               <DropdownMenu.Root>
                 <DropdownMenu.Trigger>
                   <Avatar
-                    src=
-                    "https://lh3.googleusercontent.com/a/ACg8ocIVFGiEKRT-BdMlw9AwD44yULWdia7WcrJ0bmnPEzTIRFttm4I=s96-c"
+                    src={session?.user?.image!}
                     fallback="?"
                     radius="full"
                     size={"2"}
