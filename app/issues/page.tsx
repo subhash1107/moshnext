@@ -1,37 +1,22 @@
 import { prisma } from "@/prisma/client";
-import { Table } from "@radix-ui/themes";
-import { Link, IssueStatusBadge } from "@/app/components";
-import NextLink from "next/link";
-import React from "react";
-import IssueActions from "./IssueActions";
-import { Issue, Status } from "../generated/prisma";
-import { ArrowUpIcon } from "@radix-ui/react-icons";
+
 import Pagination from "../components/Pagination";
+import { Issue, Status } from "../generated/prisma";
+import IssueActions from "./IssueActions";
+import IssueTable, { columnNames, IssueQuery } from "./IssueTable";
+import { Flex } from "@radix-ui/themes";
 
 interface Props {
-  searchParams: Promise<{
-    status?: Status;
-    orderBy?: keyof Issue;
-    page?: string;
-  }>;
+  searchParams: Promise<IssueQuery>;
 }
 
 const IssuePage = async ({ searchParams }: Props) => {
-  const columns: { label: string; value: keyof Issue; className?: string }[] = [
-    { label: "Issues", value: "title" },
-    { label: "Status", value: "status", className: "hidden md:table-cell" },
-    {
-      label: "Created At",
-      value: "createdAt",
-      className: "hidden md:table-cell",
-    },
-  ];
+  
   const usedParams = await searchParams;
   const { status } = usedParams;
   const isValidStatus =
     status && Object.values(Status).includes(status as Status);
-  const orderBy = columns
-    .map((column) => column.value)
+  const orderBy = columnNames
     .includes(usedParams.orderBy as keyof Issue)
     ? { [usedParams.orderBy as keyof Issue]: "asc" }
     : undefined;
@@ -50,52 +35,15 @@ const IssuePage = async ({ searchParams }: Props) => {
   const issueCount = await prisma.issue.count({where})
 
   return (
-    <div className="">
+    <Flex gap={'3'} direction={'column'}>
       <IssueActions />
-      <Table.Root variant="surface">
-        <Table.Header>
-          <Table.Row>
-            {columns.map((columns, index) => (
-              <Table.ColumnHeaderCell key={index} className={columns.className}>
-                <NextLink
-                  href={{
-                    query: { ...usedParams, orderBy: columns.value },
-                  }}
-                >
-                  {columns.label}
-                </NextLink>
-                {columns.value == usedParams.orderBy && (
-                  <ArrowUpIcon className="inline" />
-                )}
-              </Table.ColumnHeaderCell>
-            ))}
-          </Table.Row>
-        </Table.Header>
-        <Table.Body>
-          {issues.map((issue) => (
-            <Table.Row key={issue.id}>
-              <Table.Cell>
-                <Link href={`/issues/${issue.id}`}>{issue.title}</Link>
-                <div className="block md:hidden">
-                  <IssueStatusBadge status={issue.status} />
-                </div>
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                <IssueStatusBadge status={issue.status} />
-              </Table.Cell>
-              <Table.Cell className="hidden md:table-cell">
-                {issue.createdAt.toDateString()}
-              </Table.Cell>
-            </Table.Row>
-          ))}
-        </Table.Body>
-      </Table.Root>
+      <IssueTable issues={issues} usedParams={usedParams}/>
       <Pagination
       currentPage={page}
       pageSize={pageSize}
       itemCount={issueCount}
       />
-    </div>
+    </Flex>
   );
 };
 
