@@ -42,7 +42,7 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  { params }: { params: Record<string,string> }
 ) {
   const server = await getServerSession(authOption);
   if (!server) return NextResponse.json({}, { status: 401 });
