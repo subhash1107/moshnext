@@ -42,12 +42,13 @@ export async function PATCH(
 
 export async function DELETE(
   request: NextRequest,
-  { params }: { params: Record<string,string> }
+  context: { params:{id:string} }
 ) {
+  const {id} = context.params
   const server = await getServerSession(authOption);
   if (!server) return NextResponse.json({}, { status: 401 });
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
   if (!issue)
     return NextResponse.json({ error: "Issue Not Found" }, { status: 404 });
