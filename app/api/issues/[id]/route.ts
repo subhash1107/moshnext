@@ -5,8 +5,9 @@ import { getServerSession } from "next-auth";
 import { NextRequest, NextResponse } from "next/server";
 export async function PATCH(
   request: NextRequest,
-  { params }: { params: { id: string } }
+  context: { params: Promise<{ id: string }> }
 ) {
+  const {id } = await context.params
   const server = await getServerSession(authOption);
   if (!server) return NextResponse.json({}, { status: 401 });
   const body = await request.json();
@@ -24,7 +25,7 @@ export async function PATCH(
   }
 
   const issue = await prisma.issue.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
   });
   if (!issue)
     return NextResponse.json({ error: "Invalid Issue" }, { status: 404 });
