@@ -304,8 +304,8 @@ export namespace Prisma {
   export import Exact = $Public.Exact
 
   /**
-   * Prisma Client JS version: 6.6.0
-   * Query Engine version: f676762280b54cd07c770017ed3711ddde35f37a
+   * Prisma Client JS version: 6.7.0
+   * Query Engine version: 3cff47a7f5d65c3ea74883f1d736e41d68ce91ed
    */
   export type PrismaVersion = {
     client: string
@@ -5469,23 +5469,36 @@ export namespace Prisma {
 
   export type AggregateVerificationToken = {
     _count: VerificationTokenCountAggregateOutputType | null
+    _avg: VerificationTokenAvgAggregateOutputType | null
+    _sum: VerificationTokenSumAggregateOutputType | null
     _min: VerificationTokenMinAggregateOutputType | null
     _max: VerificationTokenMaxAggregateOutputType | null
   }
 
+  export type VerificationTokenAvgAggregateOutputType = {
+    id: number | null
+  }
+
+  export type VerificationTokenSumAggregateOutputType = {
+    id: number | null
+  }
+
   export type VerificationTokenMinAggregateOutputType = {
+    id: number | null
     identifier: string | null
     token: string | null
     expires: Date | null
   }
 
   export type VerificationTokenMaxAggregateOutputType = {
+    id: number | null
     identifier: string | null
     token: string | null
     expires: Date | null
   }
 
   export type VerificationTokenCountAggregateOutputType = {
+    id: number
     identifier: number
     token: number
     expires: number
@@ -5493,19 +5506,30 @@ export namespace Prisma {
   }
 
 
+  export type VerificationTokenAvgAggregateInputType = {
+    id?: true
+  }
+
+  export type VerificationTokenSumAggregateInputType = {
+    id?: true
+  }
+
   export type VerificationTokenMinAggregateInputType = {
+    id?: true
     identifier?: true
     token?: true
     expires?: true
   }
 
   export type VerificationTokenMaxAggregateInputType = {
+    id?: true
     identifier?: true
     token?: true
     expires?: true
   }
 
   export type VerificationTokenCountAggregateInputType = {
+    id?: true
     identifier?: true
     token?: true
     expires?: true
@@ -5550,6 +5574,18 @@ export namespace Prisma {
     /**
      * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
      * 
+     * Select which fields to average
+    **/
+    _avg?: VerificationTokenAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: VerificationTokenSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
      * Select which fields to find the minimum value
     **/
     _min?: VerificationTokenMinAggregateInputType
@@ -5580,15 +5616,20 @@ export namespace Prisma {
     take?: number
     skip?: number
     _count?: VerificationTokenCountAggregateInputType | true
+    _avg?: VerificationTokenAvgAggregateInputType
+    _sum?: VerificationTokenSumAggregateInputType
     _min?: VerificationTokenMinAggregateInputType
     _max?: VerificationTokenMaxAggregateInputType
   }
 
   export type VerificationTokenGroupByOutputType = {
+    id: number
     identifier: string
     token: string
     expires: Date
     _count: VerificationTokenCountAggregateOutputType | null
+    _avg: VerificationTokenAvgAggregateOutputType | null
+    _sum: VerificationTokenSumAggregateOutputType | null
     _min: VerificationTokenMinAggregateOutputType | null
     _max: VerificationTokenMaxAggregateOutputType | null
   }
@@ -5608,6 +5649,7 @@ export namespace Prisma {
 
 
   export type VerificationTokenSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
     identifier?: boolean
     token?: boolean
     expires?: boolean
@@ -5616,17 +5658,19 @@ export namespace Prisma {
 
 
   export type VerificationTokenSelectScalar = {
+    id?: boolean
     identifier?: boolean
     token?: boolean
     expires?: boolean
   }
 
-  export type VerificationTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"identifier" | "token" | "expires", ExtArgs["result"]["verificationToken"]>
+  export type VerificationTokenOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "identifier" | "token" | "expires", ExtArgs["result"]["verificationToken"]>
 
   export type $VerificationTokenPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     name: "VerificationToken"
     objects: {}
     scalars: $Extensions.GetPayloadResult<{
+      id: number
       identifier: string
       token: string
       expires: Date
@@ -5713,8 +5757,8 @@ export namespace Prisma {
      * // Get first 10 VerificationTokens
      * const verificationTokens = await prisma.verificationToken.findMany({ take: 10 })
      * 
-     * // Only select the `identifier`
-     * const verificationTokenWithIdentifierOnly = await prisma.verificationToken.findMany({ select: { identifier: true } })
+     * // Only select the `id`
+     * const verificationTokenWithIdOnly = await prisma.verificationToken.findMany({ select: { id: true } })
      * 
      */
     findMany<T extends VerificationTokenFindManyArgs>(args?: SelectSubset<T, VerificationTokenFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$VerificationTokenPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
@@ -5999,6 +6043,7 @@ export namespace Prisma {
    * Fields of the VerificationToken model
    */
   interface VerificationTokenFieldRefs {
+    readonly id: FieldRef<"VerificationToken", 'Int'>
     readonly identifier: FieldRef<"VerificationToken", 'String'>
     readonly token: FieldRef<"VerificationToken", 'String'>
     readonly expires: FieldRef<"VerificationToken", 'DateTime'>
@@ -7394,6 +7439,7 @@ export namespace Prisma {
 
 
   export const VerificationTokenScalarFieldEnum: {
+    id: 'id',
     identifier: 'identifier',
     token: 'token',
     expires: 'expires'
@@ -7870,12 +7916,14 @@ export namespace Prisma {
     AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
     OR?: VerificationTokenWhereInput[]
     NOT?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
+    id?: IntFilter<"VerificationToken"> | number
     identifier?: StringFilter<"VerificationToken"> | string
     token?: StringFilter<"VerificationToken"> | string
     expires?: DateTimeFilter<"VerificationToken"> | Date | string
   }
 
   export type VerificationTokenOrderByWithRelationInput = {
+    id?: SortOrder
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
@@ -7883,6 +7931,7 @@ export namespace Prisma {
   }
 
   export type VerificationTokenWhereUniqueInput = Prisma.AtLeast<{
+    id?: number
     identifier_token?: VerificationTokenIdentifierTokenCompoundUniqueInput
     AND?: VerificationTokenWhereInput | VerificationTokenWhereInput[]
     OR?: VerificationTokenWhereInput[]
@@ -7890,21 +7939,25 @@ export namespace Prisma {
     identifier?: StringFilter<"VerificationToken"> | string
     token?: StringFilter<"VerificationToken"> | string
     expires?: DateTimeFilter<"VerificationToken"> | Date | string
-  }, "identifier_token">
+  }, "id" | "identifier_token">
 
   export type VerificationTokenOrderByWithAggregationInput = {
+    id?: SortOrder
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
     _count?: VerificationTokenCountOrderByAggregateInput
+    _avg?: VerificationTokenAvgOrderByAggregateInput
     _max?: VerificationTokenMaxOrderByAggregateInput
     _min?: VerificationTokenMinOrderByAggregateInput
+    _sum?: VerificationTokenSumOrderByAggregateInput
   }
 
   export type VerificationTokenScalarWhereWithAggregatesInput = {
     AND?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
     OR?: VerificationTokenScalarWhereWithAggregatesInput[]
     NOT?: VerificationTokenScalarWhereWithAggregatesInput | VerificationTokenScalarWhereWithAggregatesInput[]
+    id?: IntWithAggregatesFilter<"VerificationToken"> | number
     identifier?: StringWithAggregatesFilter<"VerificationToken"> | string
     token?: StringWithAggregatesFilter<"VerificationToken"> | string
     expires?: DateTimeWithAggregatesFilter<"VerificationToken"> | Date | string
@@ -8337,6 +8390,7 @@ export namespace Prisma {
   }
 
   export type VerificationTokenUncheckedCreateInput = {
+    id?: number
     identifier: string
     token: string
     expires: Date | string
@@ -8349,12 +8403,14 @@ export namespace Prisma {
   }
 
   export type VerificationTokenUncheckedUpdateInput = {
+    id?: IntFieldUpdateOperationsInput | number
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type VerificationTokenCreateManyInput = {
+    id?: number
     identifier: string
     token: string
     expires: Date | string
@@ -8367,6 +8423,7 @@ export namespace Prisma {
   }
 
   export type VerificationTokenUncheckedUpdateManyInput = {
+    id?: IntFieldUpdateOperationsInput | number
     identifier?: StringFieldUpdateOperationsInput | string
     token?: StringFieldUpdateOperationsInput | string
     expires?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -8893,21 +8950,32 @@ export namespace Prisma {
   }
 
   export type VerificationTokenCountOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
   }
 
+  export type VerificationTokenAvgOrderByAggregateInput = {
+    id?: SortOrder
+  }
+
   export type VerificationTokenMaxOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
   }
 
   export type VerificationTokenMinOrderByAggregateInput = {
+    id?: SortOrder
     identifier?: SortOrder
     token?: SortOrder
     expires?: SortOrder
+  }
+
+  export type VerificationTokenSumOrderByAggregateInput = {
+    id?: SortOrder
   }
 
   export type BoolFilter<$PrismaModel = never> = {
