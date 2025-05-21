@@ -42,7 +42,7 @@ export async function generateMetadata({params}:Props){
  const issue = await fetchIssue(parseInt(id))
  if(!issue){
   return{
-    title:'Issue not found'
+    title:'Issue not found '
   }
  } 
 
